@@ -30,14 +30,9 @@ try {
 
         Write-Output 'Attempting to tag resource'
 
-        If ($email) {
-            $lastModifiedBy = $email
-        } else {
-            $lastModifiedBy = $name
-        }
 
         $tags = @{
-            "LastModifiedBy"        = $lastModifiedBy
+            "LastModifiedBy"        = $name
             "LastModifiedTime"      = $time
         }
         try {
