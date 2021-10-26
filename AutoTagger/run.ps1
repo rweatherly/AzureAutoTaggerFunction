@@ -1,29 +1,58 @@
-# Parameter Name must match bindings
 param($eventGridEvent, $TriggerMetadata)
 
-# Get the day in Month Day Year format
-$date = Get-Date -Format "MM/dd/yyyy"
-# Add tag and value to the resource group
-$nameValue = $eventGridEvent.data.claims.name
-$tags = @{"Creator"="$nameValue";"DateCreated"="$date"}
+# Make sure to pass hashtables to Out-String so they're logged correctly
+#$eventGridEvent | Out-String | Write-Host
+
+# uncomment for claims detail for debugging
+#Write-Output $eventGridEvent.data.claims | Format-List
+
+$name = $eventGridEvent.data.claims.name
+Write-Output "NAME: $name"
+
+$appid = $eventGridEvent.data.claims.appid
+Write-Output "APPID: $appid"
+
+$email = $eventGridEvent.data.claims.'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress'
+Write-Output "EMAIL: $email"
+
+$time = Get-Date -Format "MM/dd/yyyy"
+Write-Output "TIMESTAMP: $time"
+
+$uri = $eventGridEvent.data.resourceUri
+Write-Output "URI: $uri"
 
 
-write-output "Tags:"
-write-output $tags
+try {
+    $resource = Get-AzResource -ResourceId $uri -ErrorAction Stop
 
-# Resource Group Information:
+    If (($resource) -and
+        ($resource.ResourceId -notlike '*Microsoft.Resources/deployments*')) {
 
-$rgURI = $eventGridEvent.data.resourceUri
-write-output "rgURI:"
-write-output $rgURI
+        Write-Output 'Attempting to tag resource'
 
-# Update the tag value
+        If ($email) {
+            $lastModifiedBy = $email
+        } else {
+            $lastModifiedBy = $name
+        }
 
-Try {
-    Update-AzTag -ResourceId $rgURI -Tag $tags -operation Merge -ErrorAction Stop
+        $tags = @{
+            "LastModifiedBy"        = $lastModifiedBy
+            "LastModifiedTime"      = $time
+        }
+        try {
+            Update-AzTag -ResourceId $uri -Tag $tags -Operation Merge
+        }
+        catch {
+            Write-Output "Encountered error writing tag, may be a resource that does not support tags."
+        }
+    }
+    else {
+        Write-Output 'Excluded resource type'
+    }
 }
-Catch {
-    $ErrorMessage = $_.Exception.message
-    write-host ('Error assigning tags ' + $ErrorMessage)
-    Break
+catch {
+    Write-Output "Not able query the resource Uri. This could be due to a permissions problem (identity needs reader); or not a resource we can query"
 }
+
+
