@@ -2,7 +2,8 @@ param($eventGridEvent, $TriggerMetadata)
 
 # Make sure to pass hashtables to Out-String so they're logged correctly
 #$eventGridEvent | Out-String | Write-Host
-
+Import-Module Az.Accounts
+Import-Module Az.Resources
 # Get the day in Month Day Year format
 $date = Get-Date -Format "MM/dd/yyyy"
 # Add tag and value to the resource group
