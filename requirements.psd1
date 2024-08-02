@@ -3,7 +3,7 @@
 #
 @{
     # For latest supported version, go to 'https://www.powershellgallery.com/packages/Az'. 
-    'Az' = '10.*'
-    #'Az.Accounts' = '3.*'
-    #'Az.Resources' = '7.*'
+    'Az' = '6.*'
+    'Az.Accounts' = '2.*'
+    'Az.Resources' = '6.*'
 }
