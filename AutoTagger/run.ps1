@@ -3,6 +3,33 @@ param($eventGridEvent, $TriggerMetadata)
 # Make sure to pass hashtables to Out-String so they're logged correctly
 #$eventGridEvent | Out-String | Write-Host
 
+# Get the day in Month Day Year format
+$date = Get-Date -Format "MM/dd/yyyy"
+# Add tag and value to the resource group
+$nameValue = $eventGridEvent.data.claims.name
+$tags = @{"Creator"="$nameValue";"DateCreated"="$date"}
+
+
+write-output "Tags:"
+write-output $tags
+
+# Resource Group Information:
+
+$rgURI = $eventGridEvent.data.resourceUri
+write-output "rgURI:"
+write-output $rgURI
+
+# Update the tag value
+
+Try {
+    Update-AzTag -ResourceId $rgURI -Tag $tags -operation Merge -ErrorAction Stop
+}
+Catch {
+    $ErrorMessage = $_.Exception.message
+    write-host ('Error assigning tags ' + $ErrorMessage)
+    Break
+}
+
 # uncomment for claims detail for debugging
 #Write-Output $eventGridEvent.data.claims | Format-List
 
