@@ -3,6 +3,16 @@ param($eventGridEvent, $TriggerMetadata)
 # Make sure to pass hashtables to Out-String so they're logged correctly
 #$eventGridEvent | Out-String | Write-Host
 
+# Import the necessary modules
+Import-Module Az.Accounts -Force
+Import-Module Az.Resources -Force
+#Import-Module SqlServer -Force
+
+# Authenticate to Azure
+Connect-AzAccount
+#Write-Host "Request database access token for managed identity"
+#$MI_Token = (Get-AzAccessToken -ResourceUrl https://database.windows.net ).Token
+
 # Get the day in Month Day Year format
 $date = Get-Date -Format "MM/dd/yyyy"
 # Add tag and value to the resource group
