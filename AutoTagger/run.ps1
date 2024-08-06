@@ -1,44 +1,44 @@
 param($eventGridEvent, $TriggerMetadata)
 
 # Make sure to pass hashtables to Out-String so they're logged correctly
-#$eventGridEvent | Out-String | Write-Host
+$eventGridEvent | Out-String | Write-Host
 
 # Import the necessary modules
-#Import-Module Az.Accounts -Force
-#Import-Module Az.Resources -Force
+Import-Module Az.Accounts -Force
+Import-Module Az.Resources -Force
 #Import-Module SqlServer -Force
 
 # Authenticate to Azure
-#Connect-AzAccount
+Connect-AzAccount
 #Write-Host "Request database access token for managed identity"
 #$MI_Token = (Get-AzAccessToken -ResourceUrl https://database.windows.net ).Token
 
 # Get the day in Month Day Year format
-#$date = Get-Date -Format "MM/dd/yyyy"
+$date = Get-Date -Format "MM/dd/yyyy"
 # Add tag and value to the resource group
-#$nameValue = $eventGridEvent.data.claims.name
-#$tags = @{"Creator"="$nameValue";"DateCreated"="$date"}
+$nameValue = $eventGridEvent.data.claims.name
+$tags = @{"Creator"="$nameValue";"DateCreated"="$date"}
 
 
-#write-output "Tags:"
-#write-output $tags
+write-output "Tags:"
+write-output $tags
 
 # Resource Group Information:
 
-#$rgURI = $eventGridEvent.data.resourceUri
-#write-output "rgURI:"
-#write-output $rgURI
+$rgURI = $eventGridEvent.data.resourceUri
+write-output "rgURI:"
+write-output $rgURI
 
 # Update the tag value
 
-#Try {
-#    Update-AzTag -ResourceId $rgURI -Tag $tags -operation Merge -ErrorAction Stop
-#}
-#Catch {
-#    $ErrorMessage = $_.Exception.message
-#    write-host ('Error assigning tags ' + $ErrorMessage)
-#    Break
-#}
+Try {
+    Update-AzTag -ResourceId $rgURI -Tag $tags -operation Merge -ErrorAction Stop
+}
+Catch {
+    $ErrorMessage = $_.Exception.message
+    write-host ('Error assigning tags ' + $ErrorMessage)
+    Break
+}
 
 # uncomment for claims detail for debugging
 #Write-Output $eventGridEvent.data.claims | Format-List
