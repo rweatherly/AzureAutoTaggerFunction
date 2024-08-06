@@ -4,12 +4,12 @@ param($eventGridEvent, $TriggerMetadata)
 $eventGridEvent | Out-String | Write-Host
 
 # Import the necessary modules
-Import-Module Az.Accounts -Force
-Import-Module Az.Resources -Force
+#Import-Module Az.Accounts -Force
+#Import-Module Az.Resources -Force
 #Import-Module SqlServer -Force
 
 # Authenticate to Azure
-Connect-AzAccount
+#Connect-AzAccount
 #Write-Host "Request database access token for managed identity"
 #$MI_Token = (Get-AzAccessToken -ResourceUrl https://database.windows.net ).Token
 
