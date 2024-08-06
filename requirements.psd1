@@ -4,6 +4,6 @@
 @{
     # For latest supported version, go to 'https://www.powershellgallery.com/packages/Az'. 
     'Az' = '10.*'
-    'Az.Accounts' = '3.*'
-    'Az.Resources' = '7.*'
+    #'Az.Accounts' = '3.*'
+    #'Az.Resources' = '7.*'
 }
