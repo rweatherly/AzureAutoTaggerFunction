@@ -4,8 +4,8 @@ param($eventGridEvent, $TriggerMetadata)
 $eventGridEvent | Out-String | Write-Host
 
 # Import the necessary modules
-#Import-Module Az.Accounts -Force
-#Import-Module Az.Resources -Force
+Import-Module Az.Accounts -Force
+Import-Module Az.Resources -Force
 #Import-Module SqlServer -Force
 
 # Authenticate to Azure
@@ -17,7 +17,7 @@ $eventGridEvent | Out-String | Write-Host
 $date = Get-Date -Format "MM/dd/yyyy"
 # Add tag and value to the resource group
 $nameValue = $eventGridEvent.data.claims.name
-$tags = @{"Creator"="$nameValue";"DateCreated"="$date"}
+$tags = @{"Creator" = "$nameValue"; "DateCreated" = "$date" }
 
 
 write-output "Tags:"
@@ -69,13 +69,14 @@ try {
 
         If ($email) {
             $lastModifiedBy = $email
-        } else {
+        }
+        else {
             $lastModifiedBy = $name
         }
 
         $tags = @{
-            "LastModifiedBy"        = $lastModifiedBy
-            "LastModifiedTime"      = $time
+            "LastModifiedBy"   = $lastModifiedBy
+            "LastModifiedTime" = $time
         }
         try {
             Update-AzTag -ResourceId $uri -Tag $tags -Operation Merge
