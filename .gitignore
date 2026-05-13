@@ -15,10 +15,6 @@ obj/
 # Ignore macOS system files
 .DS_Store
 
-# Ignore PowerShell module cache
-*.psm1
-*.psd1
-
 # Ignore logs and temporary files
 *.log
 *.tmp
