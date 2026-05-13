@@ -25,3 +25,7 @@ obj/
 
 # Ignore OneDrive temporary files
 *.~*
+
+# Ignore AI assistant data
+.claude/
+.copilot/
