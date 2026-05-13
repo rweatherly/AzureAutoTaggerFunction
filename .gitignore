@@ -1,0 +1,27 @@
+# Ignore Python cache files
+__pycache__/
+*.py[cod]
+
+# Ignore local settings file
+local.settings.json
+
+# Ignore Azure Functions artifacts
+bin/
+obj/
+
+# Ignore VS Code settings
+.vscode/
+
+# Ignore macOS system files
+.DS_Store
+
+# Ignore PowerShell module cache
+*.psm1
+*.psd1
+
+# Ignore logs and temporary files
+*.log
+*.tmp
+
+# Ignore OneDrive temporary files
+*.~*
