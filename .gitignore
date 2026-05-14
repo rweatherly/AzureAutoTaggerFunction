@@ -24,4 +24,5 @@ obj/
 
 # Ignore AI assistant data
 .claude/
+CLAUDE.md
 .copilot/
